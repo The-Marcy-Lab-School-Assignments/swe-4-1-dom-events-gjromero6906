@@ -8,5 +8,6 @@ add.addEventListener("click",() =>{
 })
 
 reset.addEventListener("click", () => {
-  h1.textContent = 0;
+    count = 0;
+    h1.textContent = count;
 });
