@@ -64,7 +64,7 @@ const playlists = [
 //   nowPlayingTitle.textContent = song.title;
 // });
 // })
-
+//"corrected code"
 const playlistsGrid = document.querySelector("#playlists-grid");
 const nowPlayingTitle = document.querySelector("#now-playing-title");
 
@@ -103,7 +103,7 @@ playlistsGrid.addEventListener("click", (event) => {
   nowPlayingTitle.textContent = clickedCard.dataset.title;
 });
 //this is why the second one is more correct 
-//You are dynamically creating <li>, <img>, and <p>
+//dynamically creating <li>, <img>, and <p>
 // I was missing:
 // data-title attribute
 // <p> should be title, not description
