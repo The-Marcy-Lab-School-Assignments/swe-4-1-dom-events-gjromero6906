@@ -26,7 +26,7 @@ Examine the HTML code below:
 In the `index.js` file, they have the code:
 
 ```js
-document.querySelector('#my-button').style.color = 'red';
+document.querySelector("#my-button").style.color = "red";
 ```
 
 But an error is thrown.
@@ -36,13 +36,18 @@ But an error is thrown.
 3. What can be done to fix it?
 
 **Your Answer:**
+The error is a T`ypeError: Cannot read properties of null (reading 'style')`.
+
+This occurs because the JavaScript runs before the DOM has finished loading, so d`ocument.querySelector('#my-button')` returns `null` since the button does not exist yet.
+
+This can be fixed by moving the `<script>` tag to the bottom of the `<body>`, adding the defer attribute to the script tag, or wrapping the code in a `DOMContentLoaded` event listener.
 
 ## Question 2: event.target vs event.currentTarget
 
 Consider this HTML:
 
 ```html
-<div id='button-container'>
+<div id="button-container">
   <button>Click Me</button>
 </div>
 ```
@@ -50,8 +55,8 @@ Consider this HTML:
 And this JavaScript:
 
 ```js
-const div = document.querySelector('#button-container');
-div.addEventListener('click', (event) => {
+const div = document.querySelector("#button-container");
+div.addEventListener("click", (event) => {
   console.log(event.target);
   console.log(event.currentTarget);
 });
@@ -59,7 +64,9 @@ div.addEventListener('click', (event) => {
 
 When a user clicks the button, both `event.target` and `event.currentTarget` are logged. Explain what each property represents in this scenario and why they might be different.
 
-**Your Answer:**
+**Your Answer:** `event.target` refers to the actual element that was clicked, which in this case is the `<button>`.
+`event.currentTarget` refers to the element the event listener is attached to, which is the `<div>`.
+They are different because the click event bubbles up from the button to the parent `div`, triggering the listener during the bubbling phase.
 
 ## Question 3: Creating Elements Dynamically
 
@@ -67,10 +74,10 @@ Look at the JavaScript code below that is attempting to create a product card dy
 
 ```js
 const product = {
-  name: 'iPhone 17',
+  name: "iPhone 17",
   price: 1099.99,
-  img: './images/iphone17.png'
-}
+  img: "./images/iphone17.png",
+};
 
 /* Desired structure: 
 <div>
@@ -80,10 +87,10 @@ const product = {
 </div>
 */
 
-const productCard = document.createElement('div');
-const productImage = document.createElement('img');
-const productName = document.createElement('h3');
-const productPrice = document.createElement('p');
+const productCard = document.createElement("div");
+const productImage = document.createElement("img");
+const productName = document.createElement("h3");
+const productPrice = document.createElement("p");
 
 productImage.src = product.img;
 productName.textContent = product.name;
@@ -95,7 +102,9 @@ document.body.append(productCard);
 However, when the page loads and the code is executed, the user isn't able to see the image, product name or product price. What is the issue with this code?
 
 **Your Answer:**
-
+The issue is that the image, heading, and paragraph elements are never appended to the `productCard `element.
+Although the elements are created and populated, they are not added to the DOM hierarchy.
+To fix this, the code must append p`roductImage, productName, and productPrice` to `productCard` before appending `productCard` to the document body.
 
 ## Question 4: Event Delegation and event.target.closest()
 
@@ -104,16 +113,16 @@ Consider this HTML:
 ```html
 <ul id="todo-list">
   <li id="todo-1">
-    <p class='description'>Walk the dog</p>
-    <p class='is-complete'>✅</p>
+    <p class="description">Walk the dog</p>
+    <p class="is-complete">✅</p>
   </li>
   <li id="todo-2">
-    <p class='description'>Take out the trash</p>
-    <p class='is-complete'>❌</p>
+    <p class="description">Take out the trash</p>
+    <p class="is-complete">❌</p>
   </li>
   <li id="todo-3">
-    <p class='description'>Wash the dishes</p>
-    <p class='is-complete'>❌</p>
+    <p class="description">Wash the dishes</p>
+    <p class="is-complete">❌</p>
   </li>
 </ul>
 ```
@@ -121,13 +130,13 @@ Consider this HTML:
 And this JavaScript:
 
 ```js
-const todoList = document.querySelector('#todo-list');
-todoList.addEventListener('click', (event) => {
-  const clickedLi = event.target.closest('li');
+const todoList = document.querySelector("#todo-list");
+todoList.addEventListener("click", (event) => {
+  const clickedLi = event.target.closest("li");
 
   if (!clickedLi) return;
 
-  clickedLi.querySelector('.is-complete').textContent = "✅";
+  clickedLi.querySelector(".is-complete").textContent = "✅";
 });
 ```
 
@@ -135,6 +144,9 @@ todoList.addEventListener('click', (event) => {
 2. Explain what the `event.target.closest('li')` method does and why it is essential to this approach.
 
 **Your Answer:**
+This approach is called `event delegation`, where a single event listener is attached to a parent element instead of individual child elements. The alternative is adding listeners to each `<li>`, but delegation is better because it improves performance and supports dynamically added elements.
+
+`event.target.closest('li')` finds the nearest ancestor `<li>` that was clicked, even if a nested element like a `<p>` was clicked. This is essential because it ensures the correct list item is selected regardless of which child element triggered the event.
 
 ## Question 5: NodeList
 
@@ -144,3 +156,6 @@ Do some independent learning and reading about the `querySelectorAll()` method. 
 2. What is the difference between a `NodeList` and an array? Why is it important to know this difference?
 
 **Your Answer:**
+`querySelector()` returns the first matching element, while `querySelectorAll()` returns all matching elements as a `NodeList`. For example, `querySelectorAll('li')` is useful when you need to loop over multiple list items.
+
+A `NodeList` looks like an array but does not support all array methods such as `map or filter`. Knowing this is important so you can convert it to an array when needed using `Array.from()` or the spread operator.

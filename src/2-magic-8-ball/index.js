@@ -29,3 +29,13 @@ TODO:
   - [ ] generates a random fortune from the fortunes array
   - [ ] shows the fortune in the answer element
 */
+const ask = document.querySelector('#ask-btn');
+const answer = document.querySelector('#answer');
+const eight = document.querySelector('#eight');
+ask.addEventListener('click', ()=>{
+  eight.style.display = 'none';
+  let num = Math.floor(Math.random() * fortunes.length);
+  const randomFortune = fortunes[num];
+  answer.textContent = randomFortune;
+  answer.style.display = 'block';
+})
