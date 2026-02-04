@@ -36,6 +36,11 @@ But an error is thrown.
 3. What can be done to fix it?
 
 **Your Answer:**
+The error is a T`ypeError: Cannot read properties of null (reading 'style')`.
+
+This occurs because the JavaScript runs before the DOM has finished loading, so d`ocument.querySelector('#my-button')` returns `null` since the button does not exist yet.
+
+This can be fixed by moving the `<script>` tag to the bottom of the `<body>`, adding the defer attribute to the script tag, or wrapping the code in a `DOMContentLoaded` event listener.
 
 ## Question 2: event.target vs event.currentTarget
 
@@ -97,6 +102,9 @@ document.body.append(productCard);
 However, when the page loads and the code is executed, the user isn't able to see the image, product name or product price. What is the issue with this code?
 
 **Your Answer:**
+The issue is that the image, heading, and paragraph elements are never appended to the `productCard `element.
+Although the elements are created and populated, they are not added to the DOM hierarchy.
+To fix this, the code must append p`roductImage, productName, and productPrice` to `productCard` before appending `productCard` to the document body.
 
 ## Question 4: Event Delegation and event.target.closest()
 
@@ -136,6 +144,9 @@ todoList.addEventListener("click", (event) => {
 2. Explain what the `event.target.closest('li')` method does and why it is essential to this approach.
 
 **Your Answer:**
+This approach is called `event delegation`, where a single event listener is attached to a parent element instead of individual child elements. The alternative is adding listeners to each `<li>`, but delegation is better because it improves performance and supports dynamically added elements.
+
+`event.target.closest('li')` finds the nearest ancestor `<li>` that was clicked, even if a nested element like a `<p>` was clicked. This is essential because it ensures the correct list item is selected regardless of which child element triggered the event.
 
 ## Question 5: NodeList
 
@@ -145,3 +156,6 @@ Do some independent learning and reading about the `querySelectorAll()` method. 
 2. What is the difference between a `NodeList` and an array? Why is it important to know this difference?
 
 **Your Answer:**
+`querySelector()` returns the first matching element, while `querySelectorAll()` returns all matching elements as a `NodeList`. For example, `querySelectorAll('li')` is useful when you need to loop over multiple list items.
+
+A `NodeList` looks like an array but does not support all array methods such as `map or filter`. Knowing this is important so you can convert it to an array when needed using `Array.from()` or the spread operator.
